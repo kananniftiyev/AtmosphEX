@@ -6,6 +6,8 @@
 #include <iostream>
 #include <exception>
 #include <stdexcept>
+#include <memory>
+#include <spdlog/spdlog.h>
 
 #include "Input/Keyboard.hpp"
 
@@ -15,6 +17,8 @@ namespace Core
   {
   private:
     GLFWwindow *window;
+    std::unique_ptr<Input::Keyboard> keyboard;
+
     bool is_running;
 
     void Render();

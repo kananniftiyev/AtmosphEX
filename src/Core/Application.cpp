@@ -8,7 +8,7 @@ void frame_callback(GLFWwindow *window, int width, int height)
 namespace Core
 {
 
-  Application::Application() : window(nullptr), is_running(true)
+  Application::Application() : window(nullptr), is_running(true), keyboard{nullptr}
   {
   }
 
@@ -42,7 +42,7 @@ namespace Core
   {
     if (!glfwInit())
     {
-      std::cerr << "GLFW initialization failed" << std::endl;
+      spdlog::error("GLFW initialization failed");
       return;
     }
 
@@ -54,7 +54,7 @@ namespace Core
 
     if (window == nullptr)
     {
-      std::cerr << "Could not create the window" << std::endl;
+      spdlog::error("Could not create the window");
       glfwTerminate();
       is_running = false;
       return;
@@ -63,14 +63,21 @@ namespace Core
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-      std::cout << "Failed to initialize GLAD" << std::endl;
+      spdlog::error("Failed to initialize GLAD");
+
       return;
     }
 
     glViewport(0, 0, WIDTH, HEIGHT);
     glfwSetFramebufferSizeCallback(window, frame_callback);
 
-    std::cout << "Application Initialized!" << std::endl;
+    keyboard = std::make_unique<Input::Keyboard>(window);
+    if (keyboard == nullptr)
+    {
+      spdlog::error("Could not Initialized the Keyboard");
+      return;
+    }
+    spdlog::info("Application Initialized!");
   }
 
   void Application::Render()
@@ -81,9 +88,12 @@ namespace Core
 
   void Application::Update(float deltaTime)
   {
-    Input::Keyboard keyboard(window);
-    keyboard.IsKeyDown(GLFW_KEY_ESCAPE, [this]
-                       { glfwSetWindowShouldClose(this->window, true); });
+    std::function<void()> close_window_action = [this]
+    {
+      glfwSetWindowShouldClose(this->window, true);
+    };
+
+    keyboard->IsKeyDown(GLFW_KEY_ESCAPE, close_window_action);
   }
 
 }

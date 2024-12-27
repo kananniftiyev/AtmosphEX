@@ -1,0 +1,4 @@
+#ifndef GRAPHICS_SHADER_HPP_
+#define GRAPHICS_SHADER_HPP_
+
+#endif // GRAPHICS_SHADER_HPP_

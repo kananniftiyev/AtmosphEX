@@ -6,13 +6,6 @@
 
 #include "Core/Application.hpp"
 
-void process(GLFWwindow *window)
-{
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-  {
-  }
-}
-
 int main()
 {
   Core::Application app;
