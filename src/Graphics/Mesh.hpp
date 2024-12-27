@@ -1,4 +1,0 @@
-#ifndef GRAPHICS_MESH_HPP_
-#define GRAPHICS_MESH_HPP_
-
-#endif // GRAPHICS_MESH_HPP_

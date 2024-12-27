@@ -1,13 +1,19 @@
 #ifndef GRAPHICS_CUBE_HPP_
 #define GRAPHICS_CUBE_HPP_
+
+#include <glad/glad.h>
+#include <iostream>
+
 namespace Graphics
 {
   class Cube
   {
   private:
-    /* data */
+    GLuint VAO, VBO, EBO;
+
   public:
-    Cube(/* args */);
+    Cube();
+    void Draw() const;
   };
 
 }
