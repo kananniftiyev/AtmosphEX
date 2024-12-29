@@ -14,33 +14,7 @@ namespace Core
 
   Application::~Application()
   {
-    delete window;
     glfwTerminate();
-  }
-
-  /// @brief Runs the main application loop.
-  ///
-  /// Handles delta time calculations, rendering, updating, and event polling.
-  void Application::Run()
-  {
-    float current_frame;
-    float last_frame = glfwGetTime();
-    float delta_time;
-
-    Start();
-    while (!glfwWindowShouldClose(window))
-    {
-      // Delta time
-      current_frame = glfwGetTime();
-      delta_time = current_frame - last_frame;
-      last_frame = current_frame;
-
-      Render();
-      Update(delta_time);
-
-      glfwSwapBuffers(window);
-      glfwPollEvents();
-    }
   }
 
   /// @brief Initializes the application.
@@ -91,6 +65,31 @@ namespace Core
     spdlog::info("SUCCESS::APPLICATION::Application Initialized!");
   }
 
+  /// @brief Runs the main application loop.
+  ///
+  /// Handles delta time calculations, rendering, updating, and event polling.
+  void Application::Run()
+  {
+    float current_frame;
+    float last_frame = glfwGetTime();
+    float delta_time;
+
+    Start();
+    while (!glfwWindowShouldClose(window))
+    {
+      // Delta time
+      current_frame = glfwGetTime();
+      delta_time = current_frame - last_frame;
+      last_frame = current_frame;
+
+      Render();
+      Update(delta_time);
+
+      glfwSwapBuffers(window);
+      glfwPollEvents();
+    }
+  }
+
   /// @brief Renders the application scene.
   ///
   /// Clears the color buffer and draws graphics objects.
@@ -99,12 +98,7 @@ namespace Core
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (const auto &mesh : meshes)
-    {
-      mesh.Draw();
-    }
-    Graphics::Cube cube;
-    cube.Draw();
+    cubes["Default"]->Draw();
   }
 
   /// @brief Updates the application state every frame.
@@ -112,23 +106,29 @@ namespace Core
   /// Handles input and updates game logic.
   ///
   /// @param deltaTime The time elapsed since the last frame, in seconds.
-  void Application::Update(float deltaTime)
+  void Application::Update(float &deltaTime)
   {
+    // Keyboard
     std::function<void()> close_window_action = [this]
     {
       glfwSetWindowShouldClose(this->window, true);
     };
 
     keyboard->IsKeyDown(GLFW_KEY_ESCAPE, close_window_action);
+
+    // Physics
   }
 
   /// @brief Performs setup tasks before the main loop starts.
   ///
   /// Prepares shaders, resources, and other dependencies.
-  void Application::Start() const
+  void Application::Start()
   {
-    Graphics::Shader shader("../res/shaders/cube/cube.vert", "../res/shaders/cube/cube.frag");
-    shader.Use();
+
+    shaders["Default"] = std::make_unique<Graphics::Shader>("../res/shaders/cube/cube.vert", "../res/shaders/cube/cube.frag");
+    shaders["Default"]->Use();
+
+    cubes["Default"] = std::make_unique<Graphics::Cube>();
   }
 
 }

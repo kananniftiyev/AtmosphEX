@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Find required packages
 find_package(glfw3 REQUIRED)
 find_package(spdlog REQUIRED)
-
+find_package(nlohmann_json REQUIRED)
 # Add glm as an include directory (header-only)
 find_path(GLM_INCLUDE_DIR glm/glm.hpp)
 
@@ -17,6 +17,8 @@ endif()
 # Include directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/glad/include)
+include_directories(${PROJECT_SOURCE_DIR}/lib)
+
 include_directories(${GLM_INCLUDE_DIR})
 
 # Add glad source file
@@ -28,7 +30,7 @@ file(GLOB_RECURSE TARGET_SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
 add_executable(main ${TARGET_SRC} ${GLAD_SRC})
 
 # Link glfw (GLM doesn't need linking as it's header-only)
-target_link_libraries(main glfw spdlog::spdlog)
+target_link_libraries(main glfw spdlog::spdlog nlohmann_json::nlohmann_json)
 
 # CPack configuration
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

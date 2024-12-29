@@ -9,6 +9,7 @@
 #include <memory>
 #include <spdlog/spdlog.h>
 #include <vector>
+#include <unordered_map>
 
 #include <Graphics/Cube.hpp>
 #include <Graphics/Shader.hpp>
@@ -23,16 +24,27 @@ namespace Core
     GLFWwindow *window;
     std::unique_ptr<Input::Keyboard> keyboard;
 
-    std::vector<Graphics::Mesh> meshes;
+    std::unordered_map<std::string, std::unique_ptr<Graphics::Mesh>> meshes;
+    std::unordered_map<std::string, std::unique_ptr<Graphics::Shader>> shaders;
+    std::unordered_map<std::string, std::unique_ptr<Graphics::Cube>> cubes;
+
     bool is_running;
 
     void Render();
-    void Update(float deltaTime);
-    void Start() const;
+    void Update(float &deltaTime);
+    void Start();
+
+    struct RenderObject
+    {
+      std::string shader_name;
+      std::string mesh_name;
+    };
+
+    std::vector<RenderObject> render_queue;
 
   public:
-    Application(/* args */);
-    ~Application(/* args */);
+    Application();
+    ~Application();
 
     void Run();
     void Initialize(int WIDTH, int HEIGHT);
