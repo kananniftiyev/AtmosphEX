@@ -15,6 +15,8 @@
 #include <Graphics/Shader.hpp>
 #include <Graphics/Mesh.hpp>
 #include "Input/Keyboard.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Utils/Camera.hpp"
 
 namespace Core
 {
@@ -22,7 +24,8 @@ namespace Core
   {
   private:
     GLFWwindow *window;
-    std::unique_ptr<Input::Keyboard> keyboard;
+    std::shared_ptr<Input::Keyboard> keyboard;
+    std::unique_ptr<Utils::Camera> camera;
 
     std::unordered_map<std::string, std::unique_ptr<Graphics::Mesh>> meshes;
     std::unordered_map<std::string, std::unique_ptr<Graphics::Shader>> shaders;

@@ -25,7 +25,9 @@ namespace Graphics
     void Use() const;
     void Remove() const;
     uint16_t GetID() const;
+
     void SetMat4(const std::string &name, const glm::mat4 &mat) const;
+    void SetVec3(const std::string &name, float x, float y, float z) const;
   };
 
 }

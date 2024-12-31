@@ -1,9 +1,6 @@
 #include <iostream>
 #include <exception>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "Core/Application.hpp"
 
 int main()
