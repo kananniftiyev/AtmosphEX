@@ -5,16 +5,17 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <functional>
+#include <memory>
 
 namespace Input
 {
   class Keyboard
   {
   private:
-    GLFWwindow *window;
+    std::shared_ptr<GLFWwindow> window;
 
   public:
-    Keyboard(GLFWwindow *window);
+    Keyboard(std::shared_ptr<GLFWwindow> w);
     ~Keyboard();
 
     void IsKeyDown(int key, std::function<void()> &func);
