@@ -19,11 +19,12 @@ namespace Core
 
     camera = std::make_unique<Utils::Camera>(keyboard);
 
-    shaders["Default"] = std::make_unique<Graphics::Shader>("../res/shaders/cube/cube.vert", "../res/shaders/cube/cube.frag");
+    shaders["Default"] = std::make_unique<Graphics::Shader>("./res/shaders/cube/cube.vert", "./res/shaders/cube/cube.frag");
     shaders["Default"]->Use();
 
     meshes["test"] = std::make_unique<Graphics::Mesh>();
-    meshes["test"]->Load("../res/models/saturn_v_-_nasa.glb");
+    meshes["test"]->Load("./res/models/saturn_v_-_nasa.glb");
+    glfwSwapInterval(1);
   }
 
   void Engine::Render()
@@ -44,7 +45,6 @@ namespace Core
 
     // Physics
     glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 projection = glm::mat4(1.0f);
 
     // Model

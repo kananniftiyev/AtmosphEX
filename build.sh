@@ -1,6 +1,7 @@
 
 					#!/bin/bash
 					# Change to the build directory
+
 					cd build || { echo "Failed to change directory to build"; exit 1; }
 					# Run CMake
 					cmake .. || { echo "CMake configuration failed"; exit 1; }
@@ -20,7 +21,7 @@
 					echo -e "${YELLOW}      Running the code..."
 					echo -e "${GREEN}===============================${RESET}"
 					# Run the main executable with any arguments passed to the script
-					./main "$@"
+
 					# Create bin directory if it doesn't exist
 					mkdir -p ../bin
 					# Move the binary to the bin directory
@@ -29,4 +30,5 @@
 					else
 					    echo "Failed to move the binary to ../bin"
 					fi
-					
+          cd ..
+          ./bin/main "$@"

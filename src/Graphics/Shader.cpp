@@ -29,8 +29,12 @@ namespace Graphics
     }
     catch (std::ifstream::failure e)
     {
-      spdlog::error("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
+      spdlog::error("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: {}", e.what());
     }
+
+    spdlog::info("Loading vertex shader from: {}", vert_file);
+    spdlog::info("Loading fragment shader from: {}", frag_file);
+
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
 

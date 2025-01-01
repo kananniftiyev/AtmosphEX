@@ -10,6 +10,7 @@ namespace Core
 
   Application::Application() : window(nullptr), is_running(true)
   {
+    std::cout << std::filesystem::current_path() << std::endl;
   }
 
   Application::~Application()
@@ -95,6 +96,7 @@ namespace Core
       engine->Render();
       engine->Update(delta_time);
 
+      glFinish();
       glfwSwapBuffers(window.get());
       glfwPollEvents();
     }

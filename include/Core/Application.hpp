@@ -10,6 +10,7 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 #include <unordered_map>
+#include <filesystem>
 
 #include <Graphics/Cube.hpp>
 #include <Graphics/Shader.hpp>
