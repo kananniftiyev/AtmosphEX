@@ -12,13 +12,6 @@
 #include <unordered_map>
 #include <filesystem>
 
-#include <Graphics/Cube.hpp>
-#include <Graphics/Shader.hpp>
-#include <Graphics/Mesh.hpp>
-#include "Input/Keyboard.hpp"
-#include "Graphics/Mesh.hpp"
-#include "Utils/Camera.hpp"
-
 #include "Core/Engine.hpp"
 
 namespace Core

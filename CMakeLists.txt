@@ -12,11 +12,15 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     add_definitions(-DNDEBUG)
 endif()
 
+# Add the TinyOBJLoader submodule directory
+add_subdirectory(external/tinyobjloader)
+
+# Include TinyOBJLoader headers in your project
+include_directories(external/tinyobjloader)
+
 # Find required packages
 find_package(glfw3 REQUIRED)
 find_package(spdlog REQUIRED)
-find_package(nlohmann_json REQUIRED)
-find_package(assimp REQUIRED)
 # Add glm as an include directory (header-only)
 find_path(GLM_INCLUDE_DIR glm/glm.hpp)
 include_directories(${ASSIMP_INCLUDE_DIR})
@@ -28,7 +32,8 @@ endif()
 # Include directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/glad/include)
-include_directories(third_party/tinygltf)
+include_directories(${PROJECT_SOURCE_DIR}/lib/stbi)
+
 
 include_directories(${GLM_INCLUDE_DIR})
 
@@ -41,7 +46,7 @@ file(GLOB_RECURSE TARGET_SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
 add_executable(main ${TARGET_SRC} ${GLAD_SRC})
 
 # Link glfw (GLM doesn't need linking as it's header-only)
-target_link_libraries(main glfw spdlog::spdlog nlohmann_json::nlohmann_json ${ASSIMP_LIBRARIES})
+target_link_libraries(main glfw spdlog::spdlog tinyobjloader)
 
 # CPack configuration
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

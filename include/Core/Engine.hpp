@@ -13,9 +13,8 @@
 
 #include "Graphics/Cube.hpp"
 #include "Graphics/Shader.hpp"
-#include "Graphics/Mesh.hpp"
 #include "Input/Keyboard.hpp"
-#include "Graphics/Mesh.hpp"
+#include "Graphics/Model.hpp"
 #include "Utils/Camera.hpp"
 
 namespace Core
@@ -35,8 +34,8 @@ namespace Core
       std::string mesh_name;
     };
 
-    std::unordered_map<std::string, std::unique_ptr<Graphics::Mesh>> meshes;
-    std::unordered_map<std::string, std::unique_ptr<Graphics::Shader>> shaders;
+    std::unordered_map<std::string, std::unique_ptr<Graphics::Model>> models;
+    std::unordered_map<std::string, std::shared_ptr<Graphics::Shader>> shaders;
     std::vector<RenderObject> render_queue;
 
   public:

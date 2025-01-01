@@ -4,6 +4,8 @@ namespace Utils
 {
   Camera::Camera(std::shared_ptr<Input::Keyboard> kb, float sensitivity) : keyboard(kb), position{glm::vec3(0.0f)}, rotation{glm::vec3(0.0f)}, view{glm::mat4(1.0f)}, sensitivity{sensitivity}
   {
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -15.0f));
+    position = glm::vec3(view[3][0], view[3][1], view[3][2]);
   }
 
   Camera::~Camera() {}

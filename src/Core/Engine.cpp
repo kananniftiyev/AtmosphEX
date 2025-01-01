@@ -19,17 +19,17 @@ namespace Core
 
     camera = std::make_unique<Utils::Camera>(keyboard);
 
-    shaders["Default"] = std::make_unique<Graphics::Shader>("./res/shaders/cube/cube.vert", "./res/shaders/cube/cube.frag");
+    shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/cube/cube.vert", "./res/shaders/cube/cube.frag");
     shaders["Default"]->Use();
 
-    meshes["test"] = std::make_unique<Graphics::Mesh>();
-    meshes["test"]->Load("./res/models/saturn_v_-_nasa.glb");
+    models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj");
+
     glfwSwapInterval(1);
   }
 
   void Engine::Render()
   {
-    meshes["test"]->Draw();
+    models["skull"]->Draw();
   }
 
   void Engine::Update(float &deltaTime)
@@ -48,7 +48,7 @@ namespace Core
     glm::mat4 projection = glm::mat4(1.0f);
 
     // Model
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     // Camera
     camera->MoveAround(deltaTime);
     // view = glm::rotate(view, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));

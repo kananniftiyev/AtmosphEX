@@ -100,4 +100,9 @@ namespace Graphics
     glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
   }
 
+  void Shader::SetInt(const std::string &name, int value) const
+  {
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+  }
+
 } // namespace Graphics
