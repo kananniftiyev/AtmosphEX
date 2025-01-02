@@ -33,17 +33,18 @@ namespace Graphics
     std::vector<tinyobj::material_t> materials;
 
     // Object Properties
+    std::string model_name;
     glm::vec3 position;
     glm::vec3 rotation;
 
     // Helper Funcs
-    bool loadObj(const char *path);
+    bool loadObj(const char *path, const char *material_path);
     void setupObj();
-    void loadIndices();
-    void loadVertices();
+    void loadMesh();
+    // void loadMaterials();
 
   public:
-    Model(const char *path);
+    Model(const char *path, const char *material_path);
     void Draw();
   };
 } // namespace Graphics

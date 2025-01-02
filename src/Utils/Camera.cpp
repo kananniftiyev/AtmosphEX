@@ -38,7 +38,7 @@ namespace Utils
     };
 
     position = glm::vec3(view[3][0], view[3][1], view[3][2]);
-    spdlog::info("x: {} y: {} z:{}", position.x, position.y, position.z);
+    // spdlog::info("x: {} y: {} z:{}", position.x, position.y, position.z);
 
     keyboard->IsKeyDown(GLFW_KEY_W, move_forward);
     keyboard->IsKeyDown(GLFW_KEY_A, move_left);

@@ -22,7 +22,7 @@ namespace Core
     shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/cube/cube.vert", "./res/shaders/cube/cube.frag");
     shaders["Default"]->Use();
 
-    models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj");
+    models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj", "./res/models/");
 
     glfwSwapInterval(1);
   }

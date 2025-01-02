@@ -5,20 +5,23 @@
 
 namespace Graphics
 {
-  Model::Model(const char *path)
+  Model::Model(const char *path, const char *material_path)
   {
-    if (!loadObj(path))
+    if (!loadObj(path, material_path))
     {
-      std::cerr << "Failed to load OBJ file: " << path << std::endl;
+      spdlog::error("Failed to load OBJ file: {}", path);
       return;
     }
 
-    loadVertices();
-    loadIndices();
+    loadMesh();
     setupObj();
+
+    model_name = shapes[0].name;
+    vertices.clear();
+    std::vector<Vertex>().swap(vertices);
   }
 
-  bool Model::loadObj(const char *path)
+  bool Model::loadObj(const char *path, const char *material_path)
   {
     std::string warn;
     std::string err;
@@ -26,14 +29,20 @@ namespace Graphics
     bool success = tinyobj::LoadObj(
         &attrib,
         &shapes,
-        nullptr, // Pass nullptr instead of a materials vector
+        &materials, // Pass nullptr instead of a materials vector
         &warn,
         &err,
-        path);
+        path,
+        material_path);
 
     if (!warn.empty())
     {
       spdlog::warn("{}", warn);
+    }
+
+    if (materials.empty())
+    {
+      spdlog::info("No materials loaded. Using default material.");
     }
 
     if (!err.empty())
@@ -49,7 +58,7 @@ namespace Graphics
     return true;
   }
 
-  void Model::loadVertices()
+  void Model::loadMesh()
   {
     std::unordered_map<std::string, unsigned int> uniqueVertices;
 
@@ -99,20 +108,6 @@ namespace Graphics
         indices.push_back(uniqueVertices[key]);
       }
     }
-
-    spdlog::info("After deduplication: {} vertices and {} indices", vertices.size(), indices.size());
-  }
-
-  void Model::loadIndices()
-  {
-    for (const auto &shape : shapes)
-    {
-      const std::vector<tinyobj::index_t> &objIndices = shape.mesh.indices;
-      for (size_t i = 0; i < objIndices.size(); i++)
-      {
-        indices.push_back(objIndices[i].vertex_index);
-      }
-    }
   }
 
   void Model::setupObj()
@@ -122,8 +117,6 @@ namespace Graphics
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
-
-    spdlog::info("Loaded {} vertices and {} indices", vertices.size(), indices.size());
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
