@@ -22,6 +22,7 @@ namespace Core
     std::shared_ptr<GLFWwindow> window;
     std::unique_ptr<Engine> engine;
 
+    // properties
     bool is_running;
 
   public:
@@ -39,7 +40,7 @@ namespace Core
     ///
     /// @param WIDTH The width of the application window.
     /// @param HEIGHT The height of the application window.
-    void Initialize(int WIDTH, int HEIGHT);
+    void Initialize(int &WIDTH, int &HEIGHT);
   };
 }
 

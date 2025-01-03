@@ -18,9 +18,9 @@ namespace Input
     Keyboard(std::shared_ptr<GLFWwindow> w);
     ~Keyboard();
 
-    void IsKeyDown(int key, std::function<void()> &func);
-    void IsKeyHeld(int key, std::function<void()> &func);
-    void IsKeyReleased(int key, std::function<void()> &func);
+    void IsKeyDown(const int &key, std::function<void()> &func);
+    void IsKeyHeld(const int &key, std::function<void()> &func);
+    void IsKeyReleased(const int &key, std::function<void()> &func);
   };
 
 }

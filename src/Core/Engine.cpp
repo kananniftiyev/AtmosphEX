@@ -3,11 +3,52 @@ using Clock = std::chrono::high_resolution_clock;
 
 namespace Core
 {
-  Engine::Engine(std::shared_ptr<GLFWwindow> w) : window{w}
+
+  // Settings
+  void Engine::setFullScreen()
+  {
+    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+
+    // Get the video mode of the monitor (resolution)
+    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+
+    // Get current window position and size
+    int x, y;
+    glfwGetWindowPos(window.get(), &x, &y);
+    glfwGetWindowSize(window.get(), &m_width, &m_height);
+
+    // Make the window fullscreen by setting it to the monitor's resolution
+    glfwSetWindowMonitor(window.get(), monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+
+    m_width = mode->width;
+    m_height = mode->height;
+
+    spdlog::info("w:{} h:{}", m_width, m_height);
+  }
+
+  void Engine::setWindowed()
+  {
+    m_width = 800;
+    m_height = 600;
+    glfwSetWindowMonitor(window.get(), nullptr, 0, 0, m_width, m_height, 0);
+  }
+
+  // Main
+  Engine::Engine(std::shared_ptr<GLFWwindow> w, int width, int height) : window{w}, m_width{width}, m_height{height}
   {
   }
 
-  Engine::~Engine() {};
+  Engine::~Engine()
+  {
+    // Shutdown ImGui
+    ImGui_ImplOpenGL3_Shutdown(); // For the OpenGL renderer
+    ImGui_ImplGlfw_Shutdown();    // For the GLFW platform backend
+    ImGui::DestroyContext();      // Destroys the ImGui context
+
+    // Terminate GLFW
+    glfwDestroyWindow(window.get()); // Destroy the window
+    glfwTerminate();                 // Terminate the GLFW library
+  };
 
   void Engine::Start()
   {
@@ -79,7 +120,8 @@ namespace Core
     // Camera
     camera->MoveAround(deltaTime);
     //  Ortho/Perspective, FOV, Aspect Ratio
-    projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    glfwGetWindowSize(window.get(), &m_width, &m_height);
+    projection = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 
     shaders["Default"]->SetMat4("view", camera->GetPosition());
     shaders["Default"]->SetMat4("projection", projection);
@@ -98,6 +140,14 @@ namespace Core
     stat.cpu_usage = 5;
     stat.memory_usage = 66;
     stat.gpu_load = elapsedTime;
+
+    imgui->NewFrame();
     imgui->Stats(stat);
+    imgui->WindowControl([this]
+                         { setFullScreen(); }, [this]
+                         { setWindowed(); });
+
+    imgui->Render();
   }
+
 } // namespace Core

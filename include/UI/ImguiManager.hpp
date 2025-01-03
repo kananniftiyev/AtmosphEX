@@ -6,6 +6,7 @@
 #include <backends/imgui_impl_opengl3.h>
 #include <memory>
 #include <iostream>
+#include <functional>
 
 namespace UI
 {
@@ -24,9 +25,11 @@ namespace UI
     };
 
     ImguiManager(std::shared_ptr<GLFWwindow> window);
-    ~ImguiManager();
 
     void Stats(StatsData &stat);
+    void WindowControl(std::function<void()> fullScreen, std::function<void()> windowed);
+    void Render();
+    void NewFrame();
   };
 
 } // namespace UI

@@ -23,7 +23,7 @@ namespace Core
     glfwTerminate();
   }
 
-  void Application::Initialize(int WIDTH, int HEIGHT)
+  void Application::Initialize(int &WIDTH, int &HEIGHT)
   {
     if (!glfwInit())
     {
@@ -50,7 +50,7 @@ namespace Core
     window = std::shared_ptr<GLFWwindow>(
         glfwCreateWindow(WIDTH, HEIGHT, "AtmosphEX", nullptr, nullptr), GLFWwindowDeleter());
 
-    engine = std::make_unique<Core::Engine>(window);
+    engine = std::make_unique<Core::Engine>(window, WIDTH, HEIGHT);
 
     if (window == nullptr)
     {
@@ -83,6 +83,7 @@ namespace Core
 
     engine->Start();
     glEnable(GL_CULL_FACE);
+
     while (!glfwWindowShouldClose(window.get()))
     {
       glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

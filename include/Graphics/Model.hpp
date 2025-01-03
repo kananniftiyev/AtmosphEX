@@ -54,6 +54,7 @@ namespace Graphics
 
   public:
     Model(const char *path, const char *material_path);
+    ~Model();
     void Draw();
     void setupObj();
 

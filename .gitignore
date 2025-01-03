@@ -1,6 +1,6 @@
 # Build directory
 build/
-
+external/
 # CMake files
 CMakeCache.txt
 CMakeFiles/

@@ -20,6 +20,10 @@ namespace Graphics
     isModelLoaded = true;
   }
 
+  Model::~Model()
+  {
+  }
+
   bool Model::loadObj(const char *path, const char *material_path)
   {
     std::string warn;

@@ -6,7 +6,7 @@ namespace Input
 
   Keyboard::~Keyboard() {}
 
-  void Keyboard::IsKeyDown(int key, std::function<void()> &func)
+  void Keyboard::IsKeyDown(const int &key, std::function<void()> &func)
   {
     if (glfwGetKey(window.get(), key) == GLFW_PRESS)
     {
@@ -14,7 +14,7 @@ namespace Input
     }
   }
 
-  void Keyboard::IsKeyHeld(int key, std::function<void()> &func)
+  void Keyboard::IsKeyHeld(const int &key, std::function<void()> &func)
   {
     if (glfwGetKey(window.get(), key) == GLFW_REPEAT)
     {
@@ -22,7 +22,7 @@ namespace Input
     }
   }
 
-  void Keyboard::IsKeyReleased(int key, std::function<void()> &func)
+  void Keyboard::IsKeyReleased(const int &key, std::function<void()> &func)
   {
     if (glfwGetKey(window.get(), key) == GLFW_RELEASE)
     {

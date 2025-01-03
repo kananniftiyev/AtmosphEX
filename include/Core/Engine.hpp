@@ -38,8 +38,16 @@ namespace Core
         models;
     std::unordered_map<std::string, std::shared_ptr<Graphics::Shader>> shaders;
 
+    // Properties
+    int m_width;
+    int m_height;
+
+    // Helper Funcs
+    void setFullScreen();
+    void setWindowed();
+
   public:
-    Engine(std::shared_ptr<GLFWwindow> w);
+    Engine(std::shared_ptr<GLFWwindow> w, int width, int height);
     ~Engine();
 
     /// @brief Performs setup tasks before the main loop starts.
@@ -58,6 +66,8 @@ namespace Core
     ///
     /// Clears the color buffer and draws graphics objects.
     void Render();
+
+    // Settings
   };
 
 } // namespace Core
