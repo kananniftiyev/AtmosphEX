@@ -71,7 +71,8 @@
     "valarray": "cpp",
     "bitset": "cpp",
     "set": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "future": "cpp"
   },
   "C_Cpp.errorSquiggles": "enabled"
 }

@@ -10,7 +10,7 @@ namespace Utils
 
   Camera::~Camera() {}
 
-  void Camera::MoveAround(float deltaTime)
+  void Camera::MoveAround(float &deltaTime)
   {
     std::function<void()> move_forward = [this, deltaTime]
     {

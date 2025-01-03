@@ -5,7 +5,7 @@
 
 namespace Graphics
 {
-  Model::Model(const char *path, const char *material_path)
+  Model::Model(const char *path, const char *material_path) : isModelLoaded{false}, isMeshReady{false}, model{glm::mat4{1.0f}}, pre_model{glm::mat4{1.0f}}
   {
     if (!loadObj(path, material_path))
     {
@@ -14,11 +14,10 @@ namespace Graphics
     }
 
     loadMesh();
-    setupObj();
 
     model_name = shapes[0].name;
-    vertices.clear();
-    std::vector<Vertex>().swap(vertices);
+
+    isModelLoaded = true;
   }
 
   bool Model::loadObj(const char *path, const char *material_path)
@@ -134,6 +133,11 @@ namespace Graphics
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
+
+    isMeshReady = true;
+
+    vertices.clear();
+    std::vector<Vertex>().swap(vertices);
   }
 
   void Model::Draw()
@@ -143,6 +147,53 @@ namespace Graphics
     glBindVertexArray(0);
   }
 
+  // Object Manipulation Funcs
+  void Model::MoveObject(float x, float y, float z)
+  {
+    model = glm::translate(model, glm::vec3(x, y, z));
+    position = glm::vec3(model[3]);
+  }
+
+  void Model::RotateObject(float x, float y, float z, float rad)
+  {
+
+    model = glm::rotate(model, rad, glm::vec3(x, y, z)); // Apply the rotation
+    rotation = glm::eulerAngles(glm::quat_cast(model));  // Update the rotation angles
+  }
+
+  void Model::ScaleObject(float x, float y, float z)
+  {
+
+    model = glm::scale(model, glm::vec3(x, y, z));
+    scale = glm::vec3(model[0][0], model[1][1], model[2][2]);
+  }
+
+  void Model::Apply(std::shared_ptr<Graphics::Shader> &shader)
+  {
+    shader->SetMat4("model", model);
+    model = glm::mat4(1.0f);
+  }
+
+  // Get object props
+  glm::vec3 Model::GetPosition() const
+  {
+    return position;
+  }
+
+  glm::vec3 Model::GetRotation() const
+  {
+    return rotation;
+  }
+
+  glm::vec3 Model::GetScale() const
+  {
+    return scale;
+  }
+
+  glm::mat4 Model::GetModelMatrix() const
+  {
+    return model;
+  }
 };
 
 // namespace Graphics

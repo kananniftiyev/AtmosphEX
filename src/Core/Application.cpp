@@ -82,7 +82,7 @@ namespace Core
     float delta_time;
 
     engine->Start();
-
+    glEnable(GL_CULL_FACE);
     while (!glfwWindowShouldClose(window.get()))
     {
       glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

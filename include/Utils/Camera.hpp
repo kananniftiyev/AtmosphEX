@@ -28,7 +28,7 @@ namespace Utils
   public:
     Camera(std::shared_ptr<Input::Keyboard> kb, float sensitivity = 10);
     ~Camera();
-    void MoveAround(float deltaTime);
+    void MoveAround(float &deltaTime);
     glm::mat4 GetPosition();
   };
 

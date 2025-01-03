@@ -1,6 +1,8 @@
 #ifndef CORE_ENGINE_HPP_
 #define CORE_ENGINE_HPP_
 
+#include "UI/ImguiManager.hpp"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <spdlog/spdlog.h>
@@ -10,6 +12,9 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <thread>
+#include <chrono>
+#include <unistd.h>
 
 #include "Graphics/Cube.hpp"
 #include "Graphics/Shader.hpp"
@@ -22,21 +27,16 @@ namespace Core
   class Engine
   {
   private:
+    GLuint query;
     // Components
     std::shared_ptr<GLFWwindow> window;
     std::shared_ptr<Input::Keyboard> keyboard;
     std::unique_ptr<Utils::Camera> camera;
+    std::unique_ptr<UI::ImguiManager> imgui;
 
-    // Other
-    struct RenderObject
-    {
-      std::string shader_name;
-      std::string mesh_name;
-    };
-
-    std::unordered_map<std::string, std::unique_ptr<Graphics::Model>> models;
+    std::unordered_map<std::string, std::unique_ptr<Graphics::Model>>
+        models;
     std::unordered_map<std::string, std::shared_ptr<Graphics::Shader>> shaders;
-    std::vector<RenderObject> render_queue;
 
   public:
     Engine(std::shared_ptr<GLFWwindow> w);
