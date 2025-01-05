@@ -77,7 +77,7 @@ namespace Core
   void Engine::start()
   {
     // Init Components
-    camera = Graphics::Camera::make_camera(glm::vec3(0.0f), 5);
+    camera = Graphics::Camera::make_camera(glm::vec3(0.0f, 0.0f, -10.0f), 5);
     keyboard = std::make_shared<Input::Keyboard>(window);
     imgui = std::make_unique<UI::ImguiManager>(window);
     // Logic
@@ -127,9 +127,8 @@ namespace Core
       glfwSetWindowShouldClose(window.get(), true);
     }
 
-    // actions(deltaTime);
+    actions(deltaTime);
 
-    camera->lookAt(models["skull"]->getPosition());
     // spdlog::info("x:{} y:{} z:{}", models["skull"]->getPosition().x, models["skull"]->getPosition().y, models["skull"]->getPosition().z);
 
     // Physics
