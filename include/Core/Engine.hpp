@@ -20,7 +20,7 @@
 #include "Graphics/Shader.hpp"
 #include "Input/Keyboard.hpp"
 #include "Graphics/Model.hpp"
-#include "Utils/Camera.hpp"
+#include "Graphics/Camera.hpp"
 
 namespace Core
 {
@@ -31,7 +31,7 @@ namespace Core
     // Components
     std::shared_ptr<GLFWwindow> window;
     std::shared_ptr<Input::Keyboard> keyboard;
-    std::unique_ptr<Utils::Camera> camera;
+    Graphics::Camera *camera;
     std::unique_ptr<UI::ImguiManager> imgui;
 
     std::unordered_map<std::string, std::unique_ptr<Graphics::Model>>
@@ -45,9 +45,10 @@ namespace Core
     // Helper Funcs
     void setFullScreen();
     void setWindowed();
+    void actions(float &deltaTime);
 
   public:
-    Engine(std::shared_ptr<GLFWwindow> w, int width, int height);
+    Engine(std::shared_ptr<GLFWwindow> &w, int width, int height);
     ~Engine();
 
     /// @brief Performs setup tasks before the main loop starts.

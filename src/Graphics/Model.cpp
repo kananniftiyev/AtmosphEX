@@ -15,6 +15,7 @@ namespace Graphics
 
     loadMesh();
 
+    position = glm::vec3(model[3][0], model[3][1], model[3][2]);
     model_name = shapes[0].name;
     vertex_amount = vertices.size();
     is_model_loaded = true;

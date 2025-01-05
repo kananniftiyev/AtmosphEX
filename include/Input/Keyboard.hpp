@@ -4,8 +4,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <functional>
+#include <unordered_map>
 #include <memory>
+#include <functional>
 
 namespace Input
 {
@@ -13,14 +14,18 @@ namespace Input
   {
   private:
     std::shared_ptr<GLFWwindow> window;
+    std::unordered_map<char, int> key_map;
+
+    // void loadJsonMap();
 
   public:
     Keyboard(std::shared_ptr<GLFWwindow> w);
     ~Keyboard();
 
-    void IsKeyDown(const int &key, std::function<void()> &func);
-    void IsKeyHeld(const int &key, std::function<void()> &func);
-    void IsKeyReleased(const int &key, std::function<void()> &func);
+    bool isKeyDown(const int &key);
+    bool isKeyHeld(const int &key);
+    bool isKeyReleased(const int &key);
+    std::unordered_map<char, int> getKeyMap() const;
   };
 
 }

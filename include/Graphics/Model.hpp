@@ -1,13 +1,6 @@
 #ifndef GRAPHICS_MODEL_HPP_
 #define GRAPHICS_MODEL_HPP_
 
-#include <iostream>
-#include <vector>
-#include <memory>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <tiny_obj_loader.h>
 
 #include "Graphics/Shader.hpp"
@@ -42,6 +35,7 @@ namespace Graphics
 
     // other
     glm::mat4 model;
+    Graphics::Shader &shader;
 
     // Helper Funcs
     bool loadObj(const char *path, const char *material_path);

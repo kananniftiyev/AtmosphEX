@@ -1,5 +1,4 @@
 #include "Core/Engine.hpp"
-using Clock = std::chrono::high_resolution_clock;
 
 namespace Core
 {
@@ -28,8 +27,36 @@ namespace Core
     glfwSetWindowMonitor(window.get(), nullptr, 0, 0, m_width, m_height, 0);
   }
 
+  void Engine::actions(float &deltaTime)
+  {
+    for (auto key : keyboard->getKeyMap())
+    {
+      if (keyboard->isKeyDown(key.second))
+      {
+        switch (key.first)
+        {
+        case 'w':
+          camera->move(deltaTime, glm::vec3(0.0f, 0.0f, 1.0f));
+          break;
+        case 'a':
+          camera->move(deltaTime, glm::vec3(1.0f, 0.0f, 0.0f));
+          break;
+        case 's':
+          camera->move(deltaTime, glm::vec3(0.0f, 0.0f, -1.0f));
+          break;
+        case 'd':
+          camera->move(deltaTime, glm::vec3(-1.0f, 0.0f, 0.0f));
+          break;
+
+        default:
+          break;
+        }
+      }
+    }
+  }
+
   // Main
-  Engine::Engine(std::shared_ptr<GLFWwindow> w, int width, int height) : window{w}, m_width{width}, m_height{height}
+  Engine::Engine(std::shared_ptr<GLFWwindow> &w, int width, int height) : window{w}, m_width{width}, m_height{height}
   {
   }
 
@@ -43,29 +70,27 @@ namespace Core
     // Terminate GLFW
     glfwDestroyWindow(window.get()); // Destroy the window
     glfwTerminate();                 // Terminate the GLFW library
+
+    delete camera;
   };
 
   void Engine::start()
   {
-
-    imgui = std::make_unique<UI::ImguiManager>(window);
-
+    // Init Components
+    camera = Graphics::Camera::make_camera(glm::vec3(0.0f), 5);
     keyboard = std::make_shared<Input::Keyboard>(window);
+    imgui = std::make_unique<UI::ImguiManager>(window);
+    // Logic
     if (keyboard == nullptr)
     {
       spdlog::error("ERROR::APPLICATION::Could not Initialized the Keyboard");
       return;
     }
 
-    camera = std::make_unique<Utils::Camera>(keyboard);
-
     shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/cube/cube-ver.glsl", "./res/shaders/cube/cube-frag.glsl");
     shaders["Default"]->use();
 
-    std::thread load([this]
-                     { models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj", "./res/models/"); });
-
-    load.join();
+    models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj", "./res/models/");
 
     // glfwSwapInterval(0);
   }
@@ -96,14 +121,16 @@ namespace Core
   void Engine::update(float &deltaTime)
   {
 
-    // TODO: Move this ha
     // Keyboard
-    std::function<void()> close_window_action = [this]
+    if (keyboard->isKeyDown(GLFW_KEY_ESCAPE))
     {
-      glfwSetWindowShouldClose(this->window.get(), true);
-    };
+      glfwSetWindowShouldClose(window.get(), true);
+    }
 
-    keyboard->IsKeyDown(GLFW_KEY_ESCAPE, close_window_action);
+    // actions(deltaTime);
+
+    camera->lookAt(models["skull"]->getPosition());
+    // spdlog::info("x:{} y:{} z:{}", models["skull"]->getPosition().x, models["skull"]->getPosition().y, models["skull"]->getPosition().z);
 
     // Physics
     glm::mat4 projection = glm::mat4(1.0f);
@@ -113,12 +140,12 @@ namespace Core
     models["skull"]->scaleObject(0.2f, 0.2f, 0.2f);
     models["skull"]->apply(shaders["Default"]);
     // Camera
-    camera->MoveAround(deltaTime);
+
     //  Ortho/Perspective, FOV, Aspect Ratio
     glfwGetWindowSize(window.get(), &m_width, &m_height);
     projection = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 
-    shaders["Default"]->setMat4("view", camera->GetPosition());
+    shaders["Default"]->setMat4("view", camera->getViewMatrix());
     shaders["Default"]->setMat4("projection", projection);
     shaders["Default"]->setVec3("objectColor", 1.0f, 0.5f, 0.31f); // Example orange-like object color
     shaders["Default"]->setVec3("lightColor", 1.0f, 1.0f, 1.0f);   // White light
