@@ -13,7 +13,7 @@ namespace UI
     ImGui_ImplOpenGL3_Init("#version 460");
   }
 
-  void ImguiManager::Stats(StatsData &stat)
+  void ImguiManager::stats(StatsData &stat)
   {
     ImGui::Begin("Stats", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -29,7 +29,7 @@ namespace UI
     ImGui::End();
   }
 
-  void ImguiManager::WindowControl(std::function<void()> fullScreen, std::function<void()> windowed)
+  void ImguiManager::windowControl(std::function<void()> fullScreen, std::function<void()> windowed)
   {
     ImGui::Begin("Window Control", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -46,13 +46,13 @@ namespace UI
     ImGui::End();
   }
 
-  void ImguiManager::Render()
+  void ImguiManager::render()
   {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   }
 
-  void ImguiManager::NewFrame()
+  void ImguiManager::newFrame()
   {
     // Call this once per frame to initialize ImGui for the current frame
     ImGui_ImplOpenGL3_NewFrame();

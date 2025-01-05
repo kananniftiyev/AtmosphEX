@@ -32,7 +32,7 @@ namespace Core
     /// @brief Runs the main application loop.
     ///
     /// Handles delta time calculations, rendering, updating, and event polling.
-    void Run();
+    void run();
 
     /// @brief Initializes the application.
     ///
@@ -40,7 +40,7 @@ namespace Core
     ///
     /// @param WIDTH The width of the application window.
     /// @param HEIGHT The height of the application window.
-    void Initialize(int &WIDTH, int &HEIGHT);
+    void initialize(int &WIDTH, int &HEIGHT);
   };
 }
 

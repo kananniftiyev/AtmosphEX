@@ -1,6 +1,9 @@
 #ifndef UTILS_SCENEMANAGER_HPP_
 #define UTILS_SCENEMANAGER_HPP_
 
+#include <iostream>
+#include <functional>
+
 namespace Utils
 {
   class SceneManager

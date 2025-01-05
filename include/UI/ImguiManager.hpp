@@ -26,10 +26,10 @@ namespace UI
 
     ImguiManager(std::shared_ptr<GLFWwindow> window);
 
-    void Stats(StatsData &stat);
-    void WindowControl(std::function<void()> fullScreen, std::function<void()> windowed);
-    void Render();
-    void NewFrame();
+    void stats(StatsData &stat);
+    void windowControl(std::function<void()> fullScreen, std::function<void()> windowed);
+    void render();
+    void newFrame();
   };
 
 } // namespace UI

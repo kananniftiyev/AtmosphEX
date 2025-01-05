@@ -23,7 +23,7 @@ namespace Core
     glfwTerminate();
   }
 
-  void Application::Initialize(int &WIDTH, int &HEIGHT)
+  void Application::initialize(int &WIDTH, int &HEIGHT)
   {
     if (!glfwInit())
     {
@@ -75,13 +75,13 @@ namespace Core
     spdlog::info("SUCCESS::APPLICATION::Application Initialized!");
   }
 
-  void Application::Run()
+  void Application::run()
   {
     float current_frame;
     float last_frame = glfwGetTime();
     float delta_time;
 
-    engine->Start();
+    engine->start();
     glEnable(GL_CULL_FACE);
 
     while (!glfwWindowShouldClose(window.get()))
@@ -95,8 +95,8 @@ namespace Core
       delta_time = current_frame - last_frame;
       last_frame = current_frame;
 
-      engine->Render();
-      engine->Update(delta_time);
+      engine->render();
+      engine->update(delta_time);
 
       glFinish();
       glfwSwapBuffers(window.get());

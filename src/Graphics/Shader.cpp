@@ -78,29 +78,29 @@ namespace Graphics
     glDeleteShader(fragment);
   }
 
-  void Shader::Use() const
+  void Shader::use() const
   {
     glUseProgram(ID);
   }
 
-  void Shader::Remove() const {}
+  void Shader::remove() const {}
 
-  uint16_t Shader::GetID() const
+  uint16_t Shader::getID() const
   {
     return ID;
   }
 
-  void Shader::SetMat4(const std::string &name, const glm::mat4 &mat) const
+  void Shader::setMat4(const std::string &name, const glm::mat4 &mat) const
   {
     glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
   }
 
-  void Shader::SetVec3(const std::string &name, float x, float y, float z) const
+  void Shader::setVec3(const std::string &name, float x, float y, float z) const
   {
     glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
   }
 
-  void Shader::SetInt(const std::string &name, int value) const
+  void Shader::setInt(const std::string &name, int value) const
   {
     glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
   }

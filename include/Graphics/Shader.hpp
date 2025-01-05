@@ -22,13 +22,13 @@ namespace Graphics
   public:
     Shader(const char *vert_file, const char *frag_file);
 
-    void Use() const;
-    void Remove() const;
-    uint16_t GetID() const;
+    void use() const;
+    void remove() const;
+    uint16_t getID() const;
 
-    void SetMat4(const std::string &name, const glm::mat4 &mat) const;
-    void SetVec3(const std::string &name, float x, float y, float z) const;
-    void SetInt(const std::string &name, int value) const;
+    void setMat4(const std::string &name, const glm::mat4 &mat) const;
+    void setVec3(const std::string &name, float x, float y, float z) const;
+    void setInt(const std::string &name, int value) const;
   };
 
 }

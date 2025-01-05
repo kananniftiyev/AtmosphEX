@@ -53,19 +53,19 @@ namespace Core
     /// @brief Performs setup tasks before the main loop starts.
     ///
     /// Prepares shaders, resources, and other dependencies.
-    void Start();
+    void start();
 
     /// @brief Updates the application state every frame.
     ///
     /// Handles input and updates game logic.
     ///
     /// @param deltaTime The time elapsed since the last frame, in seconds.
-    void Update(float &deltaTime);
+    void update(float &deltaTime);
 
     /// @brief Renders the application scene.
     ///
     /// Clears the color buffer and draws graphics objects.
-    void Render();
+    void render();
 
     // Settings
   };

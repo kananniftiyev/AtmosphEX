@@ -5,7 +5,7 @@
 
 namespace Graphics
 {
-  Model::Model(const char *path, const char *material_path) : isModelLoaded{false}, isMeshReady{false}, model{glm::mat4{1.0f}}, pre_model{glm::mat4{1.0f}}
+  Model::Model(const char *path, const char *material_path) : is_model_loaded{false}, is_model_ready{false}, model{glm::mat4{1.0f}}
   {
     if (!loadObj(path, material_path))
     {
@@ -16,8 +16,8 @@ namespace Graphics
     loadMesh();
 
     model_name = shapes[0].name;
-
-    isModelLoaded = true;
+    vertex_amount = vertices.size();
+    is_model_loaded = true;
   }
 
   Model::~Model()
@@ -32,7 +32,7 @@ namespace Graphics
     bool success = tinyobj::LoadObj(
         &attrib,
         &shapes,
-        &materials, // Pass nullptr instead of a materials vector
+        &materials,
         &warn,
         &err,
         path,
@@ -89,7 +89,7 @@ namespace Graphics
         // Texture Coordinates
         if (!attrib.texcoords.empty())
         {
-          vertex.texCoords = glm::vec2(
+          vertex.tex_coords = glm::vec2(
               attrib.texcoords[2 * index.texcoord_index + 0],
               attrib.texcoords[2 * index.texcoord_index + 1]);
         }
@@ -98,7 +98,7 @@ namespace Graphics
         std::ostringstream keyStream;
         keyStream << vertex.position.x << "_" << vertex.position.y << "_" << vertex.position.z << "_"
                   << vertex.normal.x << "_" << vertex.normal.y << "_" << vertex.normal.z << "_"
-                  << vertex.texCoords.x << "_" << vertex.texCoords.y;
+                  << vertex.tex_coords.x << "_" << vertex.tex_coords.y;
 
         std::string key = keyStream.str();
 
@@ -133,18 +133,18 @@ namespace Graphics
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, normal));
     glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, texCoords));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)offsetof(Vertex, tex_coords));
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
 
-    isMeshReady = true;
+    is_model_ready = true;
 
     vertices.clear();
     std::vector<Vertex>().swap(vertices);
   }
 
-  void Model::Draw()
+  void Model::draw()
   {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -152,51 +152,61 @@ namespace Graphics
   }
 
   // Object Manipulation Funcs
-  void Model::MoveObject(float x, float y, float z)
+  void Model::moveObject(float x, float y, float z)
   {
     model = glm::translate(model, glm::vec3(x, y, z));
     position = glm::vec3(model[3]);
   }
 
-  void Model::RotateObject(float x, float y, float z, float rad)
+  void Model::rotateObject(float x, float y, float z, float rad)
   {
 
     model = glm::rotate(model, rad, glm::vec3(x, y, z)); // Apply the rotation
     rotation = glm::eulerAngles(glm::quat_cast(model));  // Update the rotation angles
   }
 
-  void Model::ScaleObject(float x, float y, float z)
+  void Model::scaleObject(float x, float y, float z)
   {
 
     model = glm::scale(model, glm::vec3(x, y, z));
     scale = glm::vec3(model[0][0], model[1][1], model[2][2]);
   }
 
-  void Model::Apply(std::shared_ptr<Graphics::Shader> &shader)
+  void Model::apply(std::shared_ptr<Graphics::Shader> &shader)
   {
-    shader->SetMat4("model", model);
+    shader->setMat4("model", model);
     model = glm::mat4(1.0f);
   }
 
   // Get object props
-  glm::vec3 Model::GetPosition() const
+  glm::vec3 Model::getPosition() const
   {
     return position;
   }
 
-  glm::vec3 Model::GetRotation() const
+  glm::vec3 Model::getRotation() const
   {
     return rotation;
   }
 
-  glm::vec3 Model::GetScale() const
+  glm::vec3 Model::getScale() const
   {
     return scale;
   }
 
-  glm::mat4 Model::GetModelMatrix() const
+  glm::mat4 Model::getModelMatrix() const
   {
     return model;
+  }
+
+  std::string Model::getObjectName() const
+  {
+    return model_name;
+  }
+
+  int Model::getObjectVerticesAmount() const
+  {
+    return vertex_amount;
   }
 };
 

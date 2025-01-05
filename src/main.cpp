@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
   Core::Application app;
   // TODO: exceptions
-  app.Initialize(app_width, app_height);
-  app.Run();
+  app.initialize(app_width, app_height);
+  app.run();
   return 0;
 }

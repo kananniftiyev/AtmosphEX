@@ -21,7 +21,7 @@ namespace Graphics
     {
       glm::vec3 position;
       glm::vec3 normal;
-      glm::vec2 texCoords;
+      glm::vec2 tex_coords;
     };
 
     std::vector<Vertex> vertices;
@@ -35,16 +35,13 @@ namespace Graphics
 
     // Object Properties
     std::string model_name;
+    int vertex_amount;
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
 
     // other
     glm::mat4 model;
-    glm::mat4 pre_model;
-
-    int scaleCount;
-    int rotateCount;
 
     // Helper Funcs
     bool loadObj(const char *path, const char *material_path);
@@ -55,24 +52,26 @@ namespace Graphics
   public:
     Model(const char *path, const char *material_path);
     ~Model();
-    void Draw();
+    void draw();
     void setupObj();
 
     // Object manipulation
-    void MoveObject(float x, float y, float z);
-    void RotateObject(float x, float y, float z, float rad);
-    void ScaleObject(float x, float y, float z);
-    void Apply(std::shared_ptr<Graphics::Shader> &shader);
+    void moveObject(float x, float y, float z);
+    void rotateObject(float x, float y, float z, float rad);
+    void scaleObject(float x, float y, float z);
+    void apply(std::shared_ptr<Graphics::Shader> &shader);
 
     // Object prop funcs
-    glm::vec3 GetPosition() const;
-    glm::vec3 GetRotation() const;
-    glm::vec3 GetScale() const;
-    glm::mat4 GetModelMatrix() const;
+    glm::vec3 getPosition() const;
+    glm::vec3 getRotation() const;
+    glm::vec3 getScale() const;
+    glm::mat4 getModelMatrix() const;
+    std::string getObjectName() const;
+    int getObjectVerticesAmount() const;
 
     // Vars
-    bool isMeshReady;
-    bool isModelLoaded;
+    bool is_model_ready;
+    bool is_model_loaded;
   };
 } // namespace Graphics
 

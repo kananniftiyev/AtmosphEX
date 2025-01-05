@@ -12,9 +12,6 @@ namespace Core
     // Get the video mode of the monitor (resolution)
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
 
-    // Get current window position and size
-    int x, y;
-    glfwGetWindowPos(window.get(), &x, &y);
     glfwGetWindowSize(window.get(), &m_width, &m_height);
 
     // Make the window fullscreen by setting it to the monitor's resolution
@@ -22,8 +19,6 @@ namespace Core
 
     m_width = mode->width;
     m_height = mode->height;
-
-    spdlog::info("w:{} h:{}", m_width, m_height);
   }
 
   void Engine::setWindowed()
@@ -50,7 +45,7 @@ namespace Core
     glfwTerminate();                 // Terminate the GLFW library
   };
 
-  void Engine::Start()
+  void Engine::start()
   {
 
     imgui = std::make_unique<UI::ImguiManager>(window);
@@ -65,7 +60,7 @@ namespace Core
     camera = std::make_unique<Utils::Camera>(keyboard);
 
     shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/cube/cube-ver.glsl", "./res/shaders/cube/cube-frag.glsl");
-    shaders["Default"]->Use();
+    shaders["Default"]->use();
 
     std::thread load([this]
                      { models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj", "./res/models/"); });
@@ -75,12 +70,12 @@ namespace Core
     // glfwSwapInterval(0);
   }
 
-  void Engine::Render()
+  void Engine::render()
   {
     glGenQueries(1, &query);
     glBeginQuery(GL_TIME_ELAPSED, query);
 
-    if (models["skull"]->isModelLoaded && !models["skull"]->isMeshReady)
+    if (models["skull"]->is_model_loaded && !models["skull"]->is_model_ready)
     {
       models["skull"]->setupObj();
     }
@@ -88,7 +83,7 @@ namespace Core
     if (models.find("skull") != models.end())
     {
 
-      models["skull"]->Draw();
+      models["skull"]->draw();
     }
     else
     {
@@ -98,7 +93,7 @@ namespace Core
     glEndQuery(GL_TIME_ELAPSED);
   }
 
-  void Engine::Update(float &deltaTime)
+  void Engine::update(float &deltaTime)
   {
 
     // TODO: Move this ha
@@ -114,21 +109,21 @@ namespace Core
     glm::mat4 projection = glm::mat4(1.0f);
 
     // Model
-    models["skull"]->RotateObject(1.0f, 0.0f, 0.0f, glm::radians(-90.0f));
-    models["skull"]->ScaleObject(0.2f, 0.2f, 0.2f);
-    models["skull"]->Apply(shaders["Default"]);
+    models["skull"]->rotateObject(1.0f, 0.0f, 0.0f, glm::radians(-90.0f));
+    models["skull"]->scaleObject(0.2f, 0.2f, 0.2f);
+    models["skull"]->apply(shaders["Default"]);
     // Camera
     camera->MoveAround(deltaTime);
     //  Ortho/Perspective, FOV, Aspect Ratio
     glfwGetWindowSize(window.get(), &m_width, &m_height);
     projection = glm::perspective(glm::radians(45.0f), (float)m_width / (float)m_height, 0.1f, 100.0f);
 
-    shaders["Default"]->SetMat4("view", camera->GetPosition());
-    shaders["Default"]->SetMat4("projection", projection);
-    shaders["Default"]->SetVec3("objectColor", 1.0f, 0.5f, 0.31f); // Example orange-like object color
-    shaders["Default"]->SetVec3("lightColor", 1.0f, 1.0f, 1.0f);   // White light
-    shaders["Default"]->SetVec3("lightPos", 1.2f, 1.0f, 2.0f);     // Light position in the scene
-    shaders["Default"]->SetVec3("viewPos", 0.0f, 0.0f, -5.0f);     // Camera position
+    shaders["Default"]->setMat4("view", camera->GetPosition());
+    shaders["Default"]->setMat4("projection", projection);
+    shaders["Default"]->setVec3("objectColor", 1.0f, 0.5f, 0.31f); // Example orange-like object color
+    shaders["Default"]->setVec3("lightColor", 1.0f, 1.0f, 1.0f);   // White light
+    shaders["Default"]->setVec3("lightPos", 1.2f, 1.0f, 2.0f);     // Light position in the scene
+    shaders["Default"]->setVec3("viewPos", 0.0f, 0.0f, -5.0f);     // Camera position
 
     GLuint64 elapsedTime;
     glGetQueryObjectui64v(query, GL_QUERY_RESULT, &elapsedTime);
@@ -141,13 +136,13 @@ namespace Core
     stat.memory_usage = 66;
     stat.gpu_load = elapsedTime;
 
-    imgui->NewFrame();
-    imgui->Stats(stat);
-    imgui->WindowControl([this]
+    imgui->newFrame();
+    imgui->stats(stat);
+    imgui->windowControl([this]
                          { setFullScreen(); }, [this]
                          { setWindowed(); });
 
-    imgui->Render();
+    imgui->render();
   }
 
 } // namespace Core
