@@ -2,7 +2,7 @@
 
 namespace Input
 {
-  Keyboard::Keyboard(std::shared_ptr<GLFWwindow> w) : window{w}
+  Keyboard::Keyboard(std::shared_ptr<GLFWwindow> &w) : window{w}
   {
     key_map['w'] = GLFW_KEY_W;
     key_map['a'] = GLFW_KEY_A;

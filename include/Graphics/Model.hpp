@@ -2,7 +2,6 @@
 #define GRAPHICS_MODEL_HPP_
 
 #include <tiny_obj_loader.h>
-
 #include "Graphics/Shader.hpp"
 
 namespace Graphics

@@ -77,7 +77,7 @@ namespace Core
   void Engine::start()
   {
     // Init Components
-    camera = Graphics::Camera::make_camera(glm::vec3(0.0f, 0.0f, -10.0f), 5);
+    camera = Graphics::Camera::new_camera(glm::vec3(0.0f, 0.0f, -10.0f), 5);
     keyboard = std::make_shared<Input::Keyboard>(window);
     imgui = std::make_unique<UI::ImguiManager>(window);
     // Logic

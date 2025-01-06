@@ -3,14 +3,6 @@ project(AtmosphEX VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-DDEBUG)
-endif()
-
-# For Release Build
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions(-DNDEBUG)
-endif()
 
 # Add the TinyOBJLoader submodule directory
 add_subdirectory(external/tinyobjloader)

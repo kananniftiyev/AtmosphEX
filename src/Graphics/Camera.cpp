@@ -8,10 +8,8 @@ namespace Graphics
     m_position = glm::vec3(m_view[3][0], m_view[3][1], m_view[3][2]);
   }
 
-  Camera::~Camera() {}
-
   Camera *Camera::m_camera = nullptr;
-  Camera *Camera::make_camera(glm::vec3 position, float sensitivity)
+  Camera *Camera::new_camera(glm::vec3 position, float sensitivity)
   {
     if (m_camera == nullptr)
     {
@@ -28,14 +26,14 @@ namespace Graphics
     m_position = glm::vec3(m_view[3][0], m_view[3][1], m_view[3][2]);
   }
 
-  void Camera::rotate(float &deltaTime, const float angle, const glm::vec3 &axis)
+  void Camera::rotate(float &deltaTime, const float &angle, const glm::vec3 &axis)
   {
     m_view = glm::rotate(m_view, glm::radians(angle), axis);
     glm::mat3 rotationMatrix = glm::mat3(m_view);
     m_rotation = glm::eulerAngles(glm::quat_cast(rotationMatrix));
   }
 
-  void Camera::lookAt(glm::vec3 target)
+  void Camera::lookAt(glm::vec3 &target)
   {
     m_view = glm::lookAt(m_position, target, glm::vec3(0.0f, 1.0f, 0.0f));
   }

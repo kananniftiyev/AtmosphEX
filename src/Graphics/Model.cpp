@@ -23,6 +23,9 @@ namespace Graphics
 
   Model::~Model()
   {
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
   }
 
   bool Model::loadObj(const char *path, const char *material_path)

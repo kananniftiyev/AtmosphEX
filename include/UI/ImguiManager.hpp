@@ -25,6 +25,7 @@ namespace UI
     };
 
     ImguiManager(std::shared_ptr<GLFWwindow> window);
+    ~ImguiManager();
 
     void stats(StatsData &stat);
     void windowControl(std::function<void()> fullScreen, std::function<void()> windowed);

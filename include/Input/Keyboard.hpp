@@ -19,7 +19,7 @@ namespace Input
     // void loadJsonMap();
 
   public:
-    Keyboard(std::shared_ptr<GLFWwindow> w);
+    Keyboard(std::shared_ptr<GLFWwindow> &w);
     ~Keyboard();
 
     bool isKeyDown(const int &key);

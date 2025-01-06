@@ -1,15 +1,8 @@
 #ifndef CORE_APPLICATION_HPP_
 #define CORE_APPLICATION_HPP_
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
 #include <exception>
 #include <stdexcept>
-#include <memory>
-#include <spdlog/spdlog.h>
-#include <vector>
-#include <unordered_map>
 #include <filesystem>
 
 #include "Core/Engine.hpp"

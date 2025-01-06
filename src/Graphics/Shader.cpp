@@ -78,6 +78,11 @@ namespace Graphics
     glDeleteShader(fragment);
   }
 
+  Shader::~Shader()
+  {
+    glDeleteProgram(ID);
+  }
+
   void Shader::use() const
   {
     glUseProgram(ID);

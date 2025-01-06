@@ -12,8 +12,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Input/Keyboard.hpp"
-
 namespace Graphics
 {
   class Camera
@@ -32,14 +30,13 @@ namespace Graphics
     Camera(glm::vec3 position = glm::vec3(0.0f), float sensitivity = 10);
     Camera(Camera &other) = delete;
     void operator=(const Camera &) = delete;
-    ~Camera();
 
-    static Camera *make_camera(glm::vec3 position, float sensitivity);
+    static Camera *new_camera(glm::vec3 position, float sensitivity);
 
     // Actions
     void move(float &deltaTime, const glm::vec3 &direction);
-    void rotate(float &deltaTime, const float angle, const glm::vec3 &axis);
-    void lookAt(glm::vec3 target);
+    void rotate(float &deltaTime, const float &angle, const glm::vec3 &axis);
+    void lookAt(glm::vec3 &target);
 
     // Properties
     glm::mat4

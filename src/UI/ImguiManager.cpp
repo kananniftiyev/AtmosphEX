@@ -13,6 +13,13 @@ namespace UI
     ImGui_ImplOpenGL3_Init("#version 460");
   }
 
+  ImguiManager::~ImguiManager()
+  {
+    // ImGui_ImplOpenGL3_Shutdown();
+    // ImGui_ImplGlfw_Shutdown();
+    // ImGui::DestroyContext();
+  }
+
   void ImguiManager::stats(StatsData &stat)
   {
     ImGui::Begin("Stats", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
