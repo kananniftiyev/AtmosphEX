@@ -2,6 +2,12 @@
 #define CORE_ENGINE_HPP_
 
 #include "UI/ImguiManager.hpp"
+#include "Graphics/Cube.hpp"
+#include "Graphics/Shader.hpp"
+#include "Input/Keyboard.hpp"
+#include "Graphics/Model.hpp"
+#include "Graphics/Camera.hpp"
+#include "Utils/GraphicsUtils.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -13,21 +19,13 @@
 #include <vector>
 #include <unordered_map>
 #include <thread>
-#include <chrono>
-#include <unistd.h>
-
-#include "Graphics/Cube.hpp"
-#include "Graphics/Shader.hpp"
-#include "Input/Keyboard.hpp"
-#include "Graphics/Model.hpp"
-#include "Graphics/Camera.hpp"
+#include <sys/resource.h>
 
 namespace Core
 {
   class Engine
   {
   private:
-    GLuint query;
     // Components
     std::shared_ptr<GLFWwindow> window;
     std::shared_ptr<Input::Keyboard> keyboard;

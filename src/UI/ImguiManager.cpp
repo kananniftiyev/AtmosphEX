@@ -20,7 +20,7 @@ namespace UI
     // ImGui::DestroyContext();
   }
 
-  void ImguiManager::stats(StatsData &stat)
+  void ImguiManager::stats(Data &stat)
   {
     ImGui::Begin("Stats", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -28,9 +28,23 @@ namespace UI
     {
       ImGui::Text("Scene Name: %s", stat.scene_name.c_str());
       ImGui::Text("FPS: %d", stat.fps);
-      ImGui::Text("Memory Usage: %d", stat.memory_usage);
-      ImGui::Text("CPU Usage: %f", stat.cpu_usage);
-      ImGui::Text("GPU Load: %d", stat.gpu_load);
+      ImGui::Text("Max Memory Usage: %.2f MB", stat.memory_usage / 1024.0);
+    }
+
+    if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+      ImGui::Text("Camera Position: x: %.2f, y: %.2f, z: %.2f",
+                  stat.camera_position.x,
+                  stat.camera_position.y,
+                  stat.camera_position.z);
+      ImGui::Text("Camera Position: x: %.2f, y: %.2f, z: %.2f",
+                  stat.camera_rotation.x,
+                  stat.camera_rotation.y,
+                  stat.camera_rotation.z);
+    }
+
+    if (ImGui::CollapsingHeader("Objects", ImGuiTreeNodeFlags_DefaultOpen))
+    {
     }
 
     ImGui::End();

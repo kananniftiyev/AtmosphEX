@@ -7,6 +7,9 @@
 #include <memory>
 #include <iostream>
 #include <functional>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace UI
 {
@@ -15,19 +18,21 @@ namespace UI
   private:
     /* data */
   public:
-    struct StatsData
+    struct Data
     {
       std::string scene_name;
       int fps;
       long int memory_usage;
       float cpu_usage;
       int gpu_load;
+      glm::vec3 camera_position;
+      glm::vec3 camera_rotation;
     };
 
     ImguiManager(std::shared_ptr<GLFWwindow> window);
     ~ImguiManager();
 
-    void stats(StatsData &stat);
+    void stats(Data &stat);
     void windowControl(std::function<void()> fullScreen, std::function<void()> windowed);
     void render();
     void newFrame();

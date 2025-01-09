@@ -42,6 +42,8 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/glad/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/stbi)
+include_directories(${PROJECT_SOURCE_DIR}/lib/linux)
+
 include_directories(${GLM_INCLUDE_DIR})
 
 # Add glad source file
