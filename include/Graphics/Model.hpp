@@ -1,29 +1,28 @@
 #ifndef GRAPHICS_MODEL_HPP_
 #define GRAPHICS_MODEL_HPP_
 
-#include <tiny_obj_loader.h>
 #include "Graphics/Shader.hpp"
+#include "Utils/GraphicsUtils.hpp"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "include/Mesh.hpp"
+#include "include/Model.hpp"
 
 namespace Graphics
 {
+  struct MeshData
+  {
+    GLuint VAO;
+    std::vector<AutoVert::Vertex> vertices;
+    std::vector<unsigned int> indices;
+    std::vector<AutoVert::Texture> textures;
+  };
+
   class Model
   {
   private:
-    struct Vertex
-    {
-      glm::vec3 position;
-      glm::vec3 normal;
-      glm::vec2 tex_coords;
-    };
-
-    std::vector<Vertex> vertices;
-    std::vector<unsigned int> indices;
-
-    unsigned int VAO, VBO, EBO;
-
-    tinyobj::attrib_t attrib;
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
+    // unsigned int VAO, VBO, EBO;
 
     // Object Properties
     std::string model_name;
@@ -32,20 +31,20 @@ namespace Graphics
     glm::vec3 rotation;
     glm::vec3 scale;
 
+    // Data
+    std::vector<MeshData> meshes;
+
     // other
-    glm::mat4 model;
+    glm::mat4 model_matrix;
 
     // Helper Funcs
-    bool loadObj(const char *path, const char *material_path);
-    void loadMesh();
-
-    // void loadMaterials();
+    GLuint setupVAOForMesh(MeshData &data);
+    void loadTextures();
 
   public:
-    Model(const char *path, const char *material_path);
+    Model(const std::string &path);
     ~Model();
-    void draw();
-    void setupObj();
+    void draw(std::shared_ptr<Graphics::Shader> &shader);
 
     // Object manipulation
     void moveObject(float x, float y, float z);

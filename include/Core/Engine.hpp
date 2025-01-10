@@ -2,7 +2,6 @@
 #define CORE_ENGINE_HPP_
 
 #include "UI/ImguiManager.hpp"
-#include "Graphics/Cube.hpp"
 #include "Graphics/Shader.hpp"
 #include "Input/Keyboard.hpp"
 #include "Graphics/Model.hpp"

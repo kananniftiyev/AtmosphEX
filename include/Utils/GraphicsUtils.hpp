@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sys/resource.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <memory>
 
@@ -43,6 +44,8 @@ namespace Utils
    * @param height The desired height of the window.
    */
   void setWindowed(std::shared_ptr<GLFWwindow> &window, int &width, int &height);
+
+  unsigned int loadTexture(const char *path);
 } // namespace Utils
 
 #endif // UTILS_GRAPHICSUTILS_HPP_

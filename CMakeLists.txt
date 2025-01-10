@@ -1,14 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(AtmosphEX VERSION 0.1.0)
 
+# Set the C++ standard
 set(CMAKE_CXX_STANDARD 20)
-
-
-# Add the TinyOBJLoader submodule directory
-add_subdirectory(external/tinyobjloader)
-
-# Include TinyOBJLoader headers in your project
-include_directories(external/tinyobjloader)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set ImGui directory
 set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/external/imgui)
@@ -29,10 +24,12 @@ set(IMGUI_SRC
 # Find required packages
 find_package(glfw3 REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(assimp REQUIRED)
+
 
 # Add glm as an include directory (header-only)
 find_path(GLM_INCLUDE_DIR glm/glm.hpp)
-include_directories(${ASSIMP_INCLUDE_DIR})
+include_directories(${GLM_INCLUDE_DIR})
 
 if (NOT GLM_INCLUDE_DIR)
     message(FATAL_ERROR "GLM not found! Make sure it is installed and included properly.")
@@ -42,9 +39,8 @@ endif()
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/glad/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib/stbi)
-include_directories(${PROJECT_SOURCE_DIR}/lib/linux)
 
-include_directories(${GLM_INCLUDE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/external/Autovert)
 
 # Add glad source file
 set(GLAD_SRC ${PROJECT_SOURCE_DIR}/lib/glad/src/glad.c)
@@ -54,9 +50,14 @@ file(GLOB_RECURSE TARGET_SRC "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 # Create the main executable
 add_executable(main ${TARGET_SRC} ${GLAD_SRC} ${IMGUI_SRC})
+set_target_properties(main PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED YES)
 
-# Link glfw, spdlog, TinyOBJLoader, and ImGui to the executable
-target_link_libraries(main glfw spdlog::spdlog tinyobjloader)
+# Link glfw and spdlog to the executable
+target_link_libraries(main
+    glfw
+    spdlog::spdlog
+    assimp
+)
 
 # CPack configuration
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

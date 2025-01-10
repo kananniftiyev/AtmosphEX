@@ -9,3 +9,15 @@
 [submodule "external/rapidjson"]
 	path = external/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
+[submodule "external/gltfloader"]
+	path = external/gltfloader
+	url = https://github.com/syoyo/tinygltfloader
+[submodule "external/tinygltf"]
+	path = external/tinygltf
+	url = https://github.com/syoyo/tinygltf
+[submodule "AutoVerts"]
+	path = AutoVerts
+	url = https://github.com/kananniftiyev/AutoVerts
+[submodule "external/Autovert"]
+	path = external/Autovert
+	url = https://github.com/kananniftiyev/AutoVerts

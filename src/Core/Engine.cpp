@@ -65,10 +65,10 @@ namespace Core
       return;
     }
 
-    shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/cube/cube-ver.glsl", "./res/shaders/cube/cube-frag.glsl");
+    shaders["Default"] = std::make_shared<Graphics::Shader>("./res/shaders/default/default-vert.glsl", "./res/shaders/default/default-frag.glsl");
     shaders["Default"]->use();
 
-    models["skull"] = std::make_unique<Graphics::Model>("./res/models/12140_Skull_v3_L2.obj", "./res/models/");
+    models["car"] = std::make_unique<Graphics::Model>("./res/models/ship/ship_in_a_bottle.glb");
 
     glfwSwapInterval(1);
   }
@@ -76,18 +76,14 @@ namespace Core
   void Engine::render()
   {
 
-    if (models["skull"]->is_model_loaded && !models["skull"]->is_model_ready)
-    {
-      models["skull"]->setupObj();
-    }
-
-    if (models.find("skull") != models.end())
+    if (models.find("car") != models.end())
     {
 
-      models["skull"]->draw();
+      models["car"]->draw(shaders["Default"]);
     }
     else
     {
+
       spdlog::warn("Model not loaded yet!");
     }
   }
@@ -107,9 +103,12 @@ namespace Core
     glm::mat4 projection = glm::mat4(1.0f);
 
     // Model
-    models["skull"]->rotateObject(1.0f, 0.0f, 0.0f, glm::radians(-90.0f));
-    models["skull"]->scaleObject(0.2f, 0.2f, 0.2f);
-    models["skull"]->apply(shaders["Default"]);
+    models["car"]->rotateObject(1.0f, 0.0f, 0.0f, glm::radians(-90.0f));
+    models["car"]->rotateObject(0.0f, 0.0f, 1.0f, glm::radians(-90.0f));
+    // models["car"]->scaleObject(0.1f, 0.1f, 0.1f);
+
+    models["car"]
+        ->apply(shaders["Default"]);
     // Camera
 
     // Ortho/Perspective, FOV, Aspect Ratio
@@ -118,10 +117,6 @@ namespace Core
 
     shaders["Default"]->setMat4("view", camera->getViewMatrix());
     shaders["Default"]->setMat4("projection", projection);
-    shaders["Default"]->setVec3("objectColor", 1.0f, 0.5f, 0.31f); // Example orange-like object color
-    shaders["Default"]->setVec3("lightColor", 1.0f, 1.0f, 1.0f);   // White light
-    shaders["Default"]->setVec3("lightPos", 1.2f, 1.0f, 2.0f);     // Light position in the scene
-    shaders["Default"]->setVec3("viewPos", 0.0f, 0.0f, -5.0f);     // Camera position
 
     // Imgui
     UI::ImguiManager::Data stat;
